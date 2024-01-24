@@ -1,34 +1,5 @@
 #!/usr/bin/env bash
+# gets Apache running on the container
+# localhost resolves to 127.0.0.1
 
-# Run the Docker container
-docker run -p 8080:80 -d -it holbertonschool/265-0
-
-# Get the container ID
-container_id=$(docker ps -q)
-
-# Check if the container is running
-if [ -z "$container_id" ]; then
-  echo "Error: Container is not running."
-  exit 1
-fi
-
-# Check Apache status inside the container
-docker exec $container_id service apache2 status | grep "apache2 is running"
-
-# If Apache is not running, restart it
-if [ $? -ne 0 ]; then
-  docker exec $container_id service apache2 start
-fi
-
-# Confirm that Apache is running
-docker exec $container_id service apache2 status | grep "apache2 is running"
-
-# Test the Apache server
-response=$(curl -s 0:8080)
-
-# Check if the response contains "Hello Holberton"
-if [[ "$response" == *"Hello Holberton"* ]]; then
-  echo "Page contains 'Hello Holberton'."
-else
-  echo "Error: Page does not contain 'Hello Holberton'."
-fi
+sudo service apache2 start
