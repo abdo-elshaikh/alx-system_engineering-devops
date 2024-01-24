@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 # Configuration that it can connects to a server without typing password
 Host *
-    HostName 100.26.56.250
-    passwordsAuthentication no
+    PasswordAuthentication no
     IdentityFile ~/.ssh/school
+    
