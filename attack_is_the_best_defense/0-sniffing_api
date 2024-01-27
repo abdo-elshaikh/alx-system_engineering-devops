@@ -1,0 +1,3 @@
+echo -n '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' | openssl base64
+
+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

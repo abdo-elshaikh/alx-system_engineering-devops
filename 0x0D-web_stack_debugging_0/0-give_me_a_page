@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 # gets Apache running on the container
-# localhost resolves to 127.0.0.1
-
 sudo service apache2 start
