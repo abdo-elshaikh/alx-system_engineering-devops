@@ -1,6 +1,18 @@
-# automate task of creating a custom HTTP header response with puppet
+# Automate the task of creating a custom HTTP header response with Puppet.
+# The name of the custom HTTP header must be X-Served-By.
+# The value of the custom HTTP header must be the hostname of the server Nginx is running on.
 
-exec { 'create custom':
-  command  => 'INDEX_COPY="Holberton School for the win!" && ERROR_COPY="Ceci n\'est pas une page - 404" && sudo apt-get -y update && sudo apt-get -y install nginx && echo "$INDEX_COPY" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null && echo "$ERROR_COPY" | sudo tee /var/www/html/custom_404.html > /dev/null && sudo sed -i \'/^\sserver_name.*/a \        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\' /etc/nginx/sites-available/default && sudo sed -i \'/^\slocation.*/i \        error_page 404 /custom_404.html;\' /etc/nginx/sites-available/default && sudo sed -i \'/^\slocation.*/i \        add_header X-Served-By $hostname;\' /etc/nginx/sites-available/default && sudo service nginx start',
-  provider => shell,
+exec {'update':
+  command => '/usr/bin/apt-get update',
+}
+-> package {'nginx':
+  ensure => 'present',
+}
+-> file_line { 'http_header':
+  path  => '/etc/nginx/nginx.conf',
+  line  => "http {\n\tadd_header X-Served-By \"${hostname}\";",
+  match => 'http {',
+}
+-> exec {'start':
+  command => '/usr/sbin/service nginx start',
 }
