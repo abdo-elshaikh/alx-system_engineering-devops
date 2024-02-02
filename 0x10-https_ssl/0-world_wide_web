@@ -4,8 +4,8 @@
 # shellcheck disable=SC2086
 
 # Usage:
-# (1) ./0-world_wide_web 3akare.tech
-# (2) ./0-world_wide_web 3akare.tech web-02
+# (1) ./0-world_wide_web abdo-mhmd.tech
+# (2) ./0-world_wide_web abdo-mhmd.tech web-02
 
 
 if [ "$#" = 1 ]
