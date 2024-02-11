@@ -3,7 +3,7 @@
 eval $(ssh-agent -s)
 ssh-add  ~/.ssh/school
 # web-server 0
-ssh ubuntu@54.175.223.125
+ssh ubuntu@54.172.62.130
 # web-server 1
 # ssh ubuntu@54.196.34.67
 # web-server 2
