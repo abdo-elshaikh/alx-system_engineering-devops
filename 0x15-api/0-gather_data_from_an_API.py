@@ -16,16 +16,16 @@ if __name__ == "__main__":
     r_for_todos = requests.get(URL_FOR_TODOS)
 
     name = r_for_users.json().get('name')
+    user_name = r_for_users.json().get('username')
     todos = r_for_todos.json()
     for todo in todos:
         if todo.get('userId') == int(sys.argv[1]):
             ALL_TASKS += 1
-        if (todo.get('userId') == int(sys.argv[1]))\
-                and (todo.get('completed')):
-            DONE_TASKS += 1
-    print("Employee {} is done with tasks({}/{}):".
-          format(name, DONE_TASKS, ALL_TASKS))
+            if todo.get('completed'):
+                DONE_TASKS += 1
+    print("Employee {} is done with tasks({}/{}):".format(
+        name, DONE_TASKS, ALL_TASKS))
     for todo in todos:
-        if (todo.get('userId') == int(sys.argv[1]))\
-                and (todo.get('completed')):
-            print("	 {}".format(todo.get('title')))
+        if todo.get('userId') == int(sys.argv[1]):
+            if todo.get('completed'):
+                print("\t {}".format(todo.get('title')))
