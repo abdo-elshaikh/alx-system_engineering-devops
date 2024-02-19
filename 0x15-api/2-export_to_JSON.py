@@ -1,28 +1,27 @@
 #!/usr/bin/python3
-""" 2-export_to_JSON.py """
-import json
-import requests
-from sys import argv
+"""
+Return information for a given employee about his/her TODO list progress
+"""
+if __name__ == "__main__":
+    import json
+    import requests
+    import sys
 
-if __name__ == '__main__':
-    employeeId = argv[1]
-    res = requests.get("https://jsonplaceholder.typicode.com/users/" +
-                       employeeId)
-    if res.status_code == 200:
-        employeeName = res.json().get("username")
-        res = requests.get("https://jsonplaceholder.typicode.com/users/" +
-                           employeeId + "/todos")
-        if res.status_code == 200:
-            employeeTodos = res.json()
-            with open(employeeId + '.json', 'w') as jsonFile:
-                json.dump({employeeId: [{
-                    'task': todo.get('title'),
-                    'completed': todo.get('completed'),
-                    'username': employeeName
-                } for todo in employeeTodos]}, jsonFile)
-        else:
-            print("Error code: {}".format(res.status_code))
-    else:
-        print("Error code: {}".format(res.status_code))
+    DONE_TASKS = 0
+    ALL_TASKS = 0
+    csvList = []
 
-    jsonFile.close()
+    URL_FOR_USERS = 'https://jsonplaceholder.typicode.com/users/{0}'.\
+        format(sys.argv[1])
+    URL_FOR_TODOS = 'https://jsonplaceholder.typicode.com/todos'
+    r_for_users = requests.get(URL_FOR_USERS)
+    r_for_todos = requests.get(URL_FOR_TODOS)
+
+    name = r_for_users.json().get('name')
+    user_name = r_for_users.json().get('username')
+    todos = r_for_todos.json()
+    with open(sys.argv[1] + '.json', 'w+') as f:
+        json.dump({sys.argv[1]: [{
+            "task": todo.get("title"),
+            "completed": todo.get("completed"),
+            "username": user_name} for todo in todos]}, f)
